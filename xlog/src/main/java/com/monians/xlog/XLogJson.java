@@ -17,10 +17,10 @@ public class XLogJson {
         try{
             if (msg.startsWith("{")) {
                 JSONObject jsonObject = new JSONObject(msg);
-                message = jsonObject.toString(XLog.JSON_INDENT);
+                message = jsonObject.toString(XLogHelper.JSON_INDENT);
             } else if (msg.startsWith("[")) {
                 JSONObject jsonObject = new JSONObject(msg);
-                message = jsonObject.toString(XLog.JSON_INDENT);
+                message = jsonObject.toString(XLogHelper.JSON_INDENT);
             } else message = msg;
 
         } catch (JSONException e) {
@@ -28,12 +28,12 @@ public class XLogJson {
             message = msg;
         }
 
-        XLogUtils.printLine(XLogUtils.D, tag, XLogUtils.TOP);
-        message = headString + XLog.LINE_SEPARATOR + message;
-        String[] lines = message.split(XLog.LINE_SEPARATOR);
+        XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.TOP);
+        message = headString + XLogHelper.LINE_SEPARATOR + message;
+        String[] lines = message.split(XLogHelper.LINE_SEPARATOR);
         for (String line : lines) {
             Log.d(tag, "║ " + line);
         }
-        XLogUtils.printLine(XLogUtils.D, tag, XLogUtils.BOTTOM);
+        XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.BOTTOM);
     }
 }

@@ -18,9 +18,9 @@ public class XLogDefault {
         int maxLenght = 4000;
         int countOfSub = msg.length() / maxLenght;
 
-        XLogUtils.printLine(type, tag, XLogUtils.TOP);
+        XLogHelper.printLine(type, tag, XLogHelper.TOP);
         printSub(type, tag, headString);
-        XLogUtils.printLine(type, tag, XLogUtils.MIDDLE);
+        XLogHelper.printLine(type, tag, XLogHelper.MIDDLE);
         if (countOfSub > 0) {
             for (int i = 0; i < countOfSub; i++) {
                 String sub = msg.substring(index, index + maxLenght);
@@ -30,7 +30,7 @@ public class XLogDefault {
             printSub(type, tag, msg.substring(index, msg.length()));
         } else printSub(type, tag, msg);
 
-        XLogUtils.printLine(type, tag, XLogUtils.BOTTOM);
+        XLogHelper.printLine(type, tag, XLogHelper.BOTTOM);
     }
 
     /**
@@ -41,22 +41,22 @@ public class XLogDefault {
      */
     private static void printSub(int type, String tag, String msg) {
         switch (type) {
-            case XLogUtils.V:
+            case XLogHelper.V:
                 Log.v(tag, "║ " + msg);
                 break;
-            case XLogUtils.D:
+            case XLogHelper.D:
                 Log.d(tag, "║ " + msg);
                 break;
-            case XLogUtils.I:
+            case XLogHelper.I:
                 Log.i(tag, "║ " + msg);
                 break;
-            case XLogUtils.W:
+            case XLogHelper.W:
                 Log.w(tag, "║ " + msg);
                 break;
-            case XLogUtils.E:
+            case XLogHelper.E:
                 Log.e(tag, "║ " + msg);
                 break;
-            case XLogUtils.A:
+            case XLogHelper.A:
                 Log.wtf(tag, "║ " + msg);
                 break;
         }

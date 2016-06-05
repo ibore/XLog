@@ -23,18 +23,18 @@ public class XLogXml {
         if (xml != null) {
             xml = XLogXml.formatXML(xml);
             xml = headString + "\n" + xml;
-        } else xml = headString + XLog.NULL_TIPS;
+        } else xml = headString + XLogHelper.NULL_TIPS;
 
-        String[] lines = xml.split(XLog.LINE_SEPARATOR);
+        String[] lines = xml.split(XLogHelper.LINE_SEPARATOR);
 
         // 打印XML
-        XLogUtils.printLine(XLogUtils.D, tag, XLogUtils.TOP);
+        XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.TOP);
         for(String line : lines) {
-            if (!XLogUtils.isEmpty(line)) {
+            if (!XLogHelper.isEmpty(line)) {
                 Log.d(tag, "║ " + line);
             }
         }
-        XLogUtils.printLine(XLogUtils.D, tag, XLogUtils.BOTTOM);
+        XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.BOTTOM);
 
     }
 
