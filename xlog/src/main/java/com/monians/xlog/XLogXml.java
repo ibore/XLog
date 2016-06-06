@@ -1,7 +1,5 @@
 package com.monians.xlog;
 
-import android.util.Log;
-
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -14,11 +12,23 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 /**
- * Created by ibore on 2016/6/5.
+ * 功能: 打印Xml，标准xml格式输出
+ * 作者: ibore
+ * 时间: 2016/6/05 12:01
+ * 邮箱: bore521@live.com
  */
 public class XLogXml {
 
-    public static void printXml(String tag, String xml, String headString) {
+    public static void printXml(String tagStr, Object... objects) {
+
+        if (!XLog.IS_SHOW_LOG) {
+            return;
+        }
+
+        String[] contents = XLogHelper.wrapperContent(tagStr, objects);
+        String tag = contents[0];
+        String xml = contents[1];
+        String headString = contents[2];
 
         if (xml != null) {
             xml = XLogXml.formatXML(xml);

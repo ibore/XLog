@@ -1,19 +1,24 @@
 package com.monians.xlog;
 
-import android.util.Log;
-
 /**
- * Created by ibore on 2016/6/6.
+ * 功能: 默认的系统Log打印方式
+ * 作者: ibore
+ * 时间: 2016/6/05 12:01
+ * 邮箱: bore521@live.com
  */
 public class XLogDefault {
-    /**
-     * 默认的Log日志打印
-     * @param type Log级别
-     * @param tag TAG
-     * @param headString 头消息
-     * @param msg 要打印的消息
-     */
-    public static void printDefault(int type, String tag, String headString, String msg) {
+
+    public static void printLog(int type, String tagStr, Object... objects) {
+
+        if (!XLog.IS_SHOW_LOG) {
+            return;
+        }
+
+        String[] contents = XLogHelper.wrapperContent(tagStr, objects);
+        String tag = contents[0];
+        String msg = contents[1];
+        String headString = contents[2];
+
         int index = 0;
         int maxLenght = 4000;
         int countOfSub = msg.length() / maxLenght;
@@ -32,5 +37,4 @@ public class XLogDefault {
 
         XLogHelper.printLine(type, tag, XLogHelper.BOTTOM);
     }
-
 }

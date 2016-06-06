@@ -4,7 +4,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
- * Created by ibore on 2016/6/5.
+ * 功能: XLog的帮助类
+ * 作者: ibore
+ * 时间: 2016/6/05 12:01
+ * 邮箱: bore521@live.com
  */
 public class XLogHelper {
 
@@ -28,8 +31,6 @@ public class XLogHelper {
     public static final int W = 0x4;
     public static final int E = 0x5;
     public static final int A = 0x6;
-    public static final int JSON = 0x7;
-    public static final int XML = 0x8;
 
     public static final int TOP = 0x10;
     public static final int MIDDLE = 0x11;

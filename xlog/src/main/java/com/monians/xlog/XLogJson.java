@@ -6,11 +6,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by ibore on 2016/6/5.
+ * 功能: 打印Json，标准Json格式输出
+ * 作者: ibore
+ * 时间: 2016/6/05 12:01
+ * 邮箱: bore521@live.com
  */
 public class XLogJson {
 
-    public static void printJson(String tag, String msg, String headString) {
+    public static void printJson(String tagStr, Object... objects) {
+
+        String[] contents = XLogHelper.wrapperContent(tagStr, objects);
+        String tag = contents[0];
+        String msg = contents[1];
+        String headString = contents[2];
 
         String message;
 

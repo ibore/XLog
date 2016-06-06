@@ -12,11 +12,21 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 /**
- * Created by ibore on 2016/6/5.
+ * 功能: 保存Log到手机上
+ * 作者: ibore
+ * 时间: 2016/6/05 12:01
+ * 邮箱: bore521@live.com
  */
 public class XLogFile {
-    public static void printFile(String tag, File targetDirectory, String fileName, String headString, String msg) {
 
+    public static void printFile(String tagStr, File targetDirectory, String fileName, Object objectMsg) {
+        if (!XLog.IS_SHOW_LOG) {
+            return;
+        }
+        String[] contents = XLogHelper.wrapperContent(tagStr, objectMsg);
+        String tag = contents[0];
+        String msg = contents[1];
+        String headString = contents[2];
         fileName = (fileName == null) ? getFileName() : fileName;
 
         if (save(targetDirectory, fileName, msg)) {
