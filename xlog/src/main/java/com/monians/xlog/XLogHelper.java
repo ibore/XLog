@@ -85,8 +85,8 @@ public class XLogHelper {
 
     /**
      * 将Object类型转换成String类型
-     * @param objects
-     * @return
+     * @param objects Object
+     * @return String
      */
     public static String getObjectsString(Object... objects) {
 
