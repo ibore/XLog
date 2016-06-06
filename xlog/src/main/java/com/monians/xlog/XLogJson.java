@@ -29,7 +29,8 @@ public class XLogJson {
         }
 
         XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.TOP);
-        message = headString + XLogHelper.LINE_SEPARATOR + message;
+        XLogHelper.printMsg(XLogHelper.D, tag, "║ " + headString);
+        XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.MIDDLE);
         String[] lines = message.split(XLogHelper.LINE_SEPARATOR);
         for (String line : lines) {
             Log.d(tag, "║ " + line);

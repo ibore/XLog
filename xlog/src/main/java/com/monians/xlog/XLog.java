@@ -14,7 +14,7 @@ public final class XLog {
 
 
 
-    private static String TAG;
+    public static String TAG;
     private static boolean IS_SHOW_LOG = true;
 
     private XLog() {
@@ -137,7 +137,7 @@ public final class XLog {
             return;
         }
 
-        String[] contents = wrapperContent(tagStr, objects);
+        String[] contents = XLogHelper.wrapperContent(tagStr, objects);
         String tag = contents[0];
         String msg = contents[1];
         String headString = contents[2];
@@ -166,66 +166,11 @@ public final class XLog {
             return;
         }
 
-        String[] contents = wrapperContent(tagStr, objectMsg);
+        String[] contents = XLogHelper.wrapperContent(tagStr, objectMsg);
         String tag = contents[0];
         String msg = contents[1];
         String headString = contents[2];
 
         XLogFile.printFile(tag, targetDirectory, fileName, headString, msg);
     }
-    private static String[] wrapperContent(String tagStr, Object... objects) {
-
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        StackTraceElement targetElement = stackTrace[XLogHelper.STACK_TRACE_INDEX];
-        String className = targetElement.getClassName();
-        String[] classNameInfo = className.split("\\.");
-        if (classNameInfo.length > 0) {
-            className = classNameInfo[classNameInfo.length - 1] + ".java";
-        }
-        String methodName = targetElement.getMethodName();
-        int lineNumber = targetElement.getLineNumber();
-
-        if (lineNumber < 0) {
-            lineNumber = 0;
-        }
-
-        String methodNameShort = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
-
-        String tag = (tagStr == null ? TAG : tagStr);
-        if (TextUtils.isEmpty(tag)) {
-            tag = TAG;
-        }
-        String msg = (objects == null) ? XLogHelper.NULL_TIPS : getObjectsString(objects);
-        String headString = "[ (" + className + ":" + lineNumber + ")#" + methodNameShort + " ] ";
-
-        return new String[]{tag, msg, headString};
-    }
-
-    /**
-     * 将Object类型转换成String类型
-     * @param objects
-     * @return
-     */
-    private static String getObjectsString(Object... objects) {
-
-        if (objects.length > 1) {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("\n");
-            for (int i = 0; i < objects.length; i++) {
-                Object object = objects[i];
-                if (object == null) {
-                    stringBuilder.append("Param").append("[").append(i).append("]").append(" = ").append("null").append("\n");
-                } else {
-                    stringBuilder.append("Param").append("[").append(i).append("]").append(" = ").append(object.toString()).append("\n");
-                }
-            }
-            return stringBuilder.toString();
-        } else {
-            Object object = objects[0];
-            return object == null ? "null" : object.toString();
-        }
-    }
-
-
-
 }

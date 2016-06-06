@@ -13,9 +13,9 @@ import com.monians.xlog.XLog;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOG_MSG = "KLog is a so cool Log Tool!";
-    private static final String TAG = "KLog";
-    private static final String URL_XML = "https://raw.githubusercontent.com/ZhaoKaiQiang/KLog/master/app/src/main/AndroidManifest.xml";
+    private static final String LOG_MSG = "XLog is a so cool Log Tool!";
+    private static final String TAG = "XLog";
+    private static final String URL_XML = "https://raw.githubusercontent.com/ibore/XLog/master/app/src/main/AndroidManifest.xml";
     private static String XML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!--  Copyright w3school.com.cn --><note><to>George</to><from>John</from><heading>Reminder</heading><body>Don't forget the meeting!</body></note>";
     private static String JSON;
     private static String JSON_LONG;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logWithParams(View view) {
         XLog.v(TAG, LOG_MSG, "params1", "params2", this);
-        XLog.d(TAG, LOG_MSG, "params1", "params2", this);
+        XLog.d(TAG, LOG_MSG, null, "params2", this);
         XLog.i(TAG, LOG_MSG, "params1", "params2", this);
         XLog.w(TAG, LOG_MSG, "params1", "params2", this);
         XLog.e(TAG, LOG_MSG, "params1", "params2", this);
@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
 //        httpClient.get(this, URL_XML, new TextHttpResponseHandler() {
 //            @Override
 //            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                KLog.e(responseString);
+//                XLog.e(responseString);
 //            }
 //
 //            @Override
 //            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                KLog.xml(responseString);
+//                XLog.xml(responseString);
 //            }
 //        });
     }

@@ -31,7 +31,7 @@ public class XLogXml {
         XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.TOP);
         for(String line : lines) {
             if (!XLogHelper.isEmpty(line)) {
-                Log.d(tag, "║ " + line);
+                XLogHelper.printMsg(XLogHelper.D, tag, "║ " + line);
             }
         }
         XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.BOTTOM);

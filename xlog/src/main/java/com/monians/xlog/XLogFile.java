@@ -18,11 +18,21 @@ public class XLogFile {
     public static void printFile(String tag, File targetDirectory, String fileName, String headString, String msg) {
 
         fileName = (fileName == null) ? getFileName() : fileName;
+
         if (save(targetDirectory, fileName, msg)) {
-            Log.d(tag, headString + " save log success ! location is >>>" + targetDirectory.getAbsolutePath() + "/" + fileName);
+            XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.TOP);
+            XLogHelper.printMsg(XLogHelper.D, tag, "║ " + headString);
+            XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.MIDDLE);
+            XLogHelper.printMsg(XLogHelper.D, tag, "║ save log success ! location is >>>" + targetDirectory.getAbsolutePath() + "/" + fileName);
+            XLogHelper.printLine(XLogHelper.D, tag, XLogHelper.BOTTOM);
         } else {
-            Log.e(tag, headString + "save log fails !");
+            XLogHelper.printLine(XLogHelper.E, tag, XLogHelper.TOP);
+            XLogHelper.printMsg(XLogHelper.E, tag, "║ " + headString);
+            XLogHelper.printLine(XLogHelper.E, tag, XLogHelper.MIDDLE);
+            XLogHelper.printMsg(XLogHelper.E, tag, "║ save log fails !");
+            XLogHelper.printLine(XLogHelper.E, tag, XLogHelper.BOTTOM);
         }
+
     }
 
     private static boolean save(File dic, String fileName, String msg) {

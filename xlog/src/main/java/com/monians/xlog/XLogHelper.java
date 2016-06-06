@@ -39,39 +39,101 @@ public class XLogHelper {
         return TextUtils.isEmpty(line) || line.equals("\n") || line.equals("\t") || TextUtils.isEmpty(line.trim());
     }
 
-    public static void printLine(int type, String tag, int site) {
+    /**
+     * 打印Log日志
+     * @param type Log级别
+     * @param tag TAG
+     * @param msg 要打印的消息
+     */
+    public static void printMsg(int type, String tag, String msg) {
         switch (type) {
             case XLogHelper.V:
-                if (TOP == site) Log.v(tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
-                if (MIDDLE == site) Log.v(tag, "╠═══════════════════════════════════════════════════════════════════════════════════════");
-                if (BOTTOM == site) Log.v(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
+                Log.v(tag, msg);
                 break;
             case XLogHelper.D:
-                if (TOP == site) Log.d(tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
-                if (MIDDLE == site) Log.d(tag, "╠═══════════════════════════════════════════════════════════════════════════════════════");
-                if (BOTTOM == site) Log.d(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
+                Log.d(tag, msg);
                 break;
             case XLogHelper.I:
-                if (TOP == site) Log.i(tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
-                if (MIDDLE == site) Log.i(tag, "╠═══════════════════════════════════════════════════════════════════════════════════════");
-                if (BOTTOM == site) Log.i(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
+                Log.i(tag, msg);
                 break;
             case XLogHelper.W:
-                if (TOP == site) Log.w(tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
-                if (MIDDLE == site) Log.w(tag, "╠═══════════════════════════════════════════════════════════════════════════════════════");
-                if (BOTTOM == site) Log.w(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
+                Log.w(tag, msg);
                 break;
             case XLogHelper.E:
-                if (TOP == site) Log.e(tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
-                if (MIDDLE == site) Log.e(tag, "╠═══════════════════════════════════════════════════════════════════════════════════════");
-                if (BOTTOM == site) Log.e(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
+                Log.e(tag, msg);
                 break;
             case XLogHelper.A:
-                if (TOP == site) Log.wtf(tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
-                if (MIDDLE == site) Log.wtf(tag, "╠═══════════════════════════════════════════════════════════════════════════════════════");
-                if (BOTTOM == site) Log.wtf(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
+                Log.wtf(tag, msg);
                 break;
         }
-
     }
+
+    public static void printLine(int type, String tag, int site) {
+        switch (site) {
+            case TOP:
+                printMsg(type, tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
+                break;
+            case MIDDLE:
+                printMsg(type, tag, "╠═══════════════════════════════════════════════════════════════════════════════════════");
+                break;
+            case BOTTOM:
+                printMsg(type, tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
+                break;
+        }
+    }
+
+    /**
+     * 将Object类型转换成String类型
+     * @param objects
+     * @return
+     */
+    public static String getObjectsString(Object... objects) {
+
+        if (objects.length > 1) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < objects.length; i++) {
+                Object object = objects[i];
+                if (object == null) {
+                    if (i == 0) stringBuilder.append("Param").append("[").append(i).append("]").append(" = ").append("null").append("\n");
+                    else stringBuilder.append("║ ").append("Param").append("[").append(i).append("]").append(" = ").append("null").append("\n");
+                } else {
+                    if (i == 0) stringBuilder.append("Param").append("[").append(i).append("]").append(" = ").append(object.toString()).append("\n");
+                    else stringBuilder.append("║ ").append("Param").append("[").append(i).append("]").append(" = ").append(object.toString()).append("\n");
+                }
+            }
+            return stringBuilder.toString();
+        } else {
+            Object object = objects[0];
+            return object == null ? "null" : object.toString();
+        }
+    }
+
+    public static String[] wrapperContent(String tagStr, Object... objects) {
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        StackTraceElement targetElement = stackTrace[XLogHelper.STACK_TRACE_INDEX];
+        String className = targetElement.getClassName();
+        String[] classNameInfo = className.split("\\.");
+        if (classNameInfo.length > 0) {
+            className = classNameInfo[classNameInfo.length - 1] + ".java";
+        }
+        String methodName = targetElement.getMethodName();
+        int lineNumber = targetElement.getLineNumber();
+
+        if (lineNumber < 0) {
+            lineNumber = 0;
+        }
+
+        String methodNameShort = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
+
+        String tag = (tagStr == null ? XLog.TAG : tagStr);
+        if (TextUtils.isEmpty(tag)) {
+            tag = XLog.TAG;
+        }
+        String msg = (objects == null) ? XLogHelper.NULL_TIPS : XLogHelper.getObjectsString(objects);
+        String headString = "(" + className + ":" + lineNumber + ")#" + methodNameShort;
+
+        return new String[]{tag, msg, headString};
+    }
+
 }
